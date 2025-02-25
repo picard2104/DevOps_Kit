@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Главная страница</title>
+</head>
+<body>
+    <h1>Добро пожаловать!</h1>
+    <ul>
+        <li><a href="https://mikitaseversite.casacam.net/content1/">Контент 1 (локальное приложение на Apache)</a></li>
+        <li><a href="https://mikitaseversite.casacam.net/music/">Скачать музыку (список треков)</a></li>
+        <li><a href="https://mikitaseversite.casacam.net/info.php">Информация о PHP (Apache+PHP)</a></li>
+        <li><a href="https://mikitaseversite.casacam.net/secondserver/">Внешний сервер (YouTube)</a></li>
+    </ul>
+</body>
+</html>
