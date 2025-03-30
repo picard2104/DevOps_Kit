@@ -1,0 +1,15 @@
+#Пишут версия уже не нужна. на память version: '3.9'
+
+services:
+  nginx:
+    build: .
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8081:8081"
+      - "8082:8082"
+    networks:
+      - nginx-net
+
+networks:
+  nginx-net:

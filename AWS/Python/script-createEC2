@@ -1,0 +1,66 @@
+import boto3
+import time
+import os
+import config #создать файл config с кредами aws
+from datetime import datetime, timedelta, timezone
+from config import AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
+
+os.environ["AWS_ACCESS_KEY_ID"] = AWS_ACCESS_KEY_ID
+os.environ["AWS_SECRET_ACCESS_KEY"] = AWS_SECRET_ACCESS_KEY
+
+# Конфиг
+AWS_REGION = "us-east-1"
+INSTANCE_CONFIG = {
+    "ImageId": "ami-04b4f1a9cf54c11d0",
+    "InstanceType": "t2.micro",
+    "KeyName": "mikitaKEY",
+    "MinCount": 1,
+    "MaxCount": 1,
+    "SubnetId": "subnet-041eb6d2fc2ecf14a",
+    "TagSpecifications": [{
+        "ResourceType": "instance",
+        "Tags": [{"Key": "OS", "Value": "ubuntu"}]
+    }]
+}
+
+def create_instance():
+    ec2 = boto3.resource("ec2", region_name=AWS_REGION)
+    instances = ec2.create_instances(**INSTANCE_CONFIG)
+    instance = instances[0]
+    instance.wait_until_running()
+    instance.reload()
+    print(f"Инстанс создан: {instance.id}")
+    return instance
+
+def get_instance_info(instance):
+    print("\n Информация об инстансе=")
+    print(f"ID: {instance.id}")
+    print(f"Public IP: {instance.public_ip_address}")
+    print(f"Тип: {instance.instance_type}")
+    print(f"ОС: {next((tag['Value'] for tag in instance.tags if tag['Key'] == 'OS'), 'N/A')}")
+
+def collect_metrics(instance_id):
+    cloudwatch = boto3.client("cloudwatch", region_name=AWS_REGION)
+    response = cloudwatch.get_metric_statistics(
+        Namespace="AWS/EC2",
+        MetricName="CPUUtilization",
+        Dimensions=[{"Name": "InstanceId", "Value": instance_id}],
+        StartTime=datetime.now(timezone.utc) - timedelta(minutes=30),
+        EndTime=datetime.now(timezone.utc),
+        Period=60,
+        Statistics=["Average"]
+    )
+    print("\n Метрики CPU")
+    for point in response["Datapoints"]:
+        print(f"Время: {point['Timestamp']}, CPU: {point['Average']}%")
+
+def main():
+    instance = create_instance()
+    time.sleep(60)
+    get_instance_info(instance)
+    collect_metrics(instance.id)
+    instance.terminate()
+    print("\n Инстанс остановлен.")
+
+if __name__ == "__main__":
+    main()

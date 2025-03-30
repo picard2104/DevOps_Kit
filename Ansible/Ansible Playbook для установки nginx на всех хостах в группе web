@@ -1,0 +1,17 @@
+- name: Install and start Nginx
+  hosts: web
+  become: yes
+  vars:
+    app_for_install: "nginx"
+
+  tasks:
+
+    - name: Install app
+      yum:
+        name: "{{ app_for_install }}"
+        state: latest
+
+    - name: Start app
+      service:
+        name: "{{ app_for_install }}"
+        state: started

@@ -1,0 +1,3 @@
+Задача  №13 Задача с терраформом: 
+Поднять в terraform aws следующее : весь VPC(как в задаче с aws vpc),  2 server( Bastion host + private) + Security groups + RDS + multiAZ для впс. нужно чтобы они были в 
+отдельных модулях, изучить как оно взаимодействует между собой в модулях с применением variables.tf и output.tf .

@@ -1,0 +1,65 @@
+ubuntu@ip-172-31-87-163:~$ history
+    1  sudo apt install apache2 php libapache2-mod-php -y
+    2  sudo nano /etc/apache2/ports.conf
+    3  sudo vim /etc/apache2/ports.conf
+    4  sudo vim /etc/apache2/sites-available/000-default.conf
+    5  sudo systemctl restart apache2
+    6  sudo netstat -tuln | grep 8000
+    7  netstat
+    8  sudo apt install net-tools
+    9  sudo netstat -tuln | grep 8000
+   10  sudo vim /var/www/html/info.php
+   11  sudo chown www-data:www-data /var/www/html/info.php
+   12  sudo chmod 644 /var/www/html/info.php
+   13  curl http://35.173.221.52:8000/info.php
+   14  sudo apt install nginx -y
+   15  systemctl status nginx
+   16  sudo apt install certbot python3-certbot-nginx -y
+   17  sudo certbot --nginx -d mikitaseversite.casacam.net
+   18  sudo apt install certbot python3-certbot-nginx -y
+   19  sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.backup
+   20  sudo nano /etc/nginx/sites-available/default
+   21  sudo rm /etc/nginx/sites-available/default
+   22  sudo vim /etc/nginx/sites-available/default
+   23  sudo apt install certbot python3-certbot-nginx
+   24  sudo certbot --nginx -d mikitaseversite.casacam.net
+   25  sudo nano /etc/apache2/sites-available/000-default.conf
+   26  sudo systemctl restart apache2
+   27  sudo netstat -tuln | grep 8000
+   28  curl http://44.210.130.143:8000/info.php
+   29  sudo systemctl status nginx
+   30  sudo apt install certbot python3-certbot-nginx -y
+   31  sudo certbot --nginx -d mikitaseversite.casacam.net
+   32  sudo apt update
+   33  sudo apt install snapd -y
+   34  sudo snap install core; sudo snap refresh core
+   35  sudo snap install --classic certbot
+   36  sudo ln -s /snap/bin/certbot /usr/bin/certbot
+   37  certbot --version
+   38  sudo certbot --nginx -d mikitaseversite.casacam.net
+   39  sudo vim /etc/nginx/sites-available/default
+   40  sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+   41  sudo nginx -t
+   42  sudo ls -l /etc/letsencrypt/live/mikitaseversite.casacam.net/
+   43  sudo systemctl stop nginx
+   44  sudo certbot certonly --standalone -d mikitaseversite.casacam.net
+   45  sudo systemctl start nginx
+   46  sudo nginx -t
+   47  sudo systemctl reload nginx
+   48  sudo mkdir -p /var/www/music
+   49  sudo vi, /var/www/html/index.html
+   50  sudo vim /var/www/html/index.html
+   51  sudo rm /var/www/html/index.html
+   52  sudo vim /var/www/html/index.html
+   53  sudo mkdir -p /var/www/music
+   54  sudo rm /etc/nginx/sites-available/default
+   55  sudo vim /etc/nginx/sites-available/default
+   56  sudo nginx -t
+   57  sudo systemctl reload nginx
+   58  sudo vim /var/www/html/index.html
+   59  sudo mkdir -p /var/www/music
+   60  nslookup mikitaseversite.casacam.net
+   61  cp /home/ubuntu/gorillaz_-_feel-good-inc.mp3 /var/www/music
+   62  sudo cp /home/ubuntu/gorillaz_-_feel-good-inc.mp3 /var/www/music
+   63  sudo cp /home/ubuntu/song.mp3 /var/www/music
+   64  sudo systemctl reload nginx
