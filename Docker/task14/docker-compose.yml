@@ -1,15 +1,41 @@
-#Пишут версия уже не нужна. на память version: '3.9'
-
 services:
   nginx:
     build: .
+    container_name: nginx_proxy
     ports:
       - "80:80"
       - "443:443"
-      - "8081:8081"
-      - "8082:8082"
+      - "8080:8080"
+    volumes:
+      - ./ssl/mikitaseversite.casacam.net:/etc/letsencrypt/live/mikitaseversite.casacam.net
     networks:
-      - nginx-net
+      - backend
+    depends_on:
+      - red
+      - blue
+
+  red:
+    image: nginx:alpine
+    container_name: red_server
+    volumes:
+      - ./nginx/red.conf:/etc/nginx/conf.d/default.conf
+      - ./red:/var/www/red
+    networks:
+      - backend
+    ports:
+      - "8081:8081"
+
+  blue:
+    image: nginx:alpine
+    container_name: blue_server
+    volumes:
+      - ./nginx/blue.conf:/etc/nginx/conf.d/default.conf
+      - ./blue:/var/www/blue
+    networks:
+      - backend
+    ports:
+      - "8082:8082"
 
 networks:
-  nginx-net:
+  backend:
+    driver: bridge
