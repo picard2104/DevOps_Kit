@@ -1,4 +1,4 @@
-FROM nginx:stable-alpine
+FROM nginx:alpine
 RUN rm -rf /etc/nginx/conf.d/*
 
 RUN apk add --no-cache nginx-mod-http-image-filter
