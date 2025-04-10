@@ -1,0 +1,3 @@
+FROM nginx:alpine
+COPY nginx/blue.conf /etc/nginx/conf.d/
+COPY blue/ /var/www/blue/
