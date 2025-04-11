@@ -1,0 +1,20 @@
+#!/bin/bash
+
+COMMIT_MSG=$(git log -1 --pretty=%B)
+
+python3 -c "
+import smtplib
+from email.message import EmailMessage
+
+commit_msg = '''$COMMIT_MSG'''
+
+msg = EmailMessage()
+msg['Subject'] = 'Новый коммит!'
+msg['From'] = 'ПОЧТА'
+msg['To'] = 'ПОЧТА'
+msg.set_content(f'Сделан коммит с текстом:\\n{commit_msg}')
+
+with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
+    server.login('ПОЧТА', 'ПАРОЛЬ GMAIL')
+    server.send_message(msg)
+"
