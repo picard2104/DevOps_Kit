@@ -1,28 +1,39 @@
 ---
-- name: клонирование гитхаб репозитория
+- name: Клонирование репозитория
   git:
     repo: "https://github.com/picard2104/DevOps_Kit.git"
     dest: /opt/app
     version: main
-    sparse_paths: "Docker/task14"
+    force: yes
+    update: yes
+    recursive: yes
 
-- name: копирование файлов проекта
+- name: Создание целевой директории
+  file:
+    path: /opt/docker-app
+    state: directory
+    mode: '0755'
+
+- name: Копирование файлов проекта
   synchronize:
-    src: "/opt/app/Docker/task14/"
-    dest: "/opt/docker-app"
+    src: "/home/ubuntu/DevOps_Kit/Docker/task14/"
+    dest: "/opt/docker-app/"
+    mode: push
     delete: yes
+    rsync_opts:
+      - --exclude=.git
 
-- name: Проверка наличия докеркомпоуз файла
+- name: Проверка наличия docker-compose.yml
   stat:
     path: /opt/docker-app/docker-compose.yml
   register: compose_file
 
-- name: файл докеркомпоуз не найден
+- name: Проверка существования docker-compose
   fail:
-    msg: "docker-compose.yml что-то пошло не так и файл не найден!"
+    msg: "Файл docker-compose.yml не найден!"
   when: not compose_file.stat.exists
 
-- name: пошли крутиться контейнеры
+- name: Запуск контейнеров
   command: docker-compose up -d
   args:
     chdir: /opt/docker-app

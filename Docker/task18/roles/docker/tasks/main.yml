@@ -39,6 +39,6 @@
 # Установка Docker Compose для всех ОС
 - name: Install Docker Compose
   get_url:
-    url: https://github.com/docker/compose/releases/download/v2.20.0/docker-compose-linux-x86_64
+    url: https://github.com/docker/compose/releases/download/v2.35.0/docker-compose-linux-x86_64
     dest: /usr/local/bin/docker-compose
     mode: '0755'  # пермишены на выполнения

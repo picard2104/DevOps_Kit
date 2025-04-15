@@ -1,0 +1,45 @@
+---
+- name: Cleanup Servers
+  hosts: all
+  become: yes
+  tasks:
+    - name: docker-compose down
+      command: docker-compose down
+      args:
+        chdir: /opt/docker-app
+      ignore_errors: yes
+
+    - name: удалить директорию приложения
+      file:
+        path: /opt/docker-app
+        state: absent
+
+    - name: удалить клонированные директории
+      file:
+        path: /opt/app
+        state: absent
+
+    - name: остановка сервиса Docker
+      service:
+        name: docker
+        state: stopped
+        enabled: no
+
+    - name: удаление Docker на Debian
+      apt:
+        name: docker-ce
+        state: absent
+        purge: yes
+      when: ansible_os_family == "Debian"
+
+    - name: удаление Docker на RedHat
+      yum:
+        name: docker
+        state: absent
+      when: ansible_os_family == "RedHat"
+
+    - name: удаление бинарников Docker
+      file:
+        path: /usr/local/bin/docker-compose
+        state: absent
+
