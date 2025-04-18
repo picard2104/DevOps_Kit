@@ -1,20 +1,20 @@
 groups:
-- name: instance-cpu
+- name: instance-alerts
   rules:
-  - alert: HighCPUInstance1
-    expr: (100 - (avg(irate(node_cpu_seconds_total{mode="idle", instance="instance1"}[1m])) * 100 > 70
+  - alert: HighCpuInstance1
+    expr: (100 - (avg(irate(node_cpu_seconds_total{instance="instance1", mode="idle"}[1m]))) * 100) > 70
     for: 1m
     labels:
       severity: critical
     annotations:
-      description: "Загрузка цпу на первом инстансе: {{ $value | printf \"%.2f\" }}%"
+      summary: "CPU overload ({{ $value | printf \"%.2f\" }}%)"
+      description: "Загрузка CPU на instance1 превысила 80%"
 
-- name: instance-memory
-  rules:
-  - alert: HighMemoryInstance2
-    expr: (1 - (node_memory_MemAvailable_bytes{instance="instance2"} / node_memory_MemTotal_bytes{instance="instance2"})) * 100 > 80
+  - alert: HighRamInstance2
+    expr: (node_memory_MemAvailable_bytes{instance="instance2"} / node_memory_MemTotal_bytes) * 100 < 20
     for: 1m
     labels:
       severity: warning
     annotations:
-      description: "Памяти использовано на втором инстансе: {{ $value | printf \"%.2f\" }}%"
+      summary: "Low RAM ({{ $value | printf \"%.2f\" }}%)"
+      description: "На instance2 осталось меньше 20% свободной RAM"

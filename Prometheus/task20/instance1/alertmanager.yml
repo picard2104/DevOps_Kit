@@ -1,9 +1,12 @@
 route:
-  receiver: telegram-alerts
+  receiver: telegram
+  group_by: [instance]
 
 receivers:
-- name: telegram-alerts
+- name: telegram
   telegram_configs:
   - bot_token: "7895479403:AAEL2eiZ_vcM-oDqtXQZxJayXnjecx_TE-0"
     chat_id: 898933876
     send_resolved: true
+    message: |
+      **Details:** {{ .CommonAnnotations.description }}
