@@ -4,26 +4,21 @@ services:
   prometheus:
     image: prom/prometheus:v3.3.0
     ports:
-      - "9090:9090"
+      - 9090:9090
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
       - ./alerts.yml:/etc/prometheus/alerts.yml
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
-    restart: unless-stopped
 
   alertmanager:
     image: prom/alertmanager:v0.28.1
     ports:
-      - "9093:9093"
+      - 9093:9093
     volumes:
       - ./alertmanager.yml:/etc/alertmanager/alertmanager.yml
-    command:
-      - '--config.file=/etc/alertmanager/alertmanager.yml'
-    restart: unless-stopped
 
   node-exporter:
     image: prom/node-exporter:v1.9.1
     ports:
-      - "9100:9100"
-    restart: unless-stopped
+      - 9100:9100
