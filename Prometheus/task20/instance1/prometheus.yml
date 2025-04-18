@@ -6,10 +6,10 @@ rule_files:
 
 scrape_configs:
   - job_name: 'instance1-cpu'
-    static_configs:
-      - targets: ['35.170.248.165:9100']
-        labels:
-          instance: "instance1"
+    static_configs:                           # ec2_sd_configs:
+      - targets: ['35.170.248.165:9100']      # - port: 9100
+        labels:                               #   filtres:
+          instance: "instance1"               #     -name: tag:Environment (таг для ес2)
           metric_type: "cpu"
 
   - job_name: 'instance2-ram'
