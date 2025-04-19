@@ -1,0 +1,48 @@
+2025/04/19 19:17:10 [notice] 1#1: using the "epoll" event method
+2025/04/19 19:17:10 [notice] 1#1: nginx/1.26.3
+2025/04/19 19:17:10 [notice] 1#1: built by gcc 13.2.1 20240309 (Alpine 13.2.1_git20240309) 
+2025/04/19 19:17:10 [notice] 1#1: OS: Linux 6.8.0-1024-aws
+2025/04/19 19:17:10 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2025/04/19 19:17:10 [notice] 1#1: start worker processes
+2025/04/19 19:17:10 [notice] 1#1: start worker process 30
+2025/04/19 19:17:23 [notice] 1#1: signal 3 (SIGQUIT) received, shutting down
+2025/04/19 19:17:23 [notice] 30#30: gracefully shutting down
+2025/04/19 19:17:23 [notice] 30#30: exiting
+2025/04/19 19:17:23 [notice] 30#30: exit
+2025/04/19 19:17:23 [notice] 1#1: signal 17 (SIGCHLD) received from 30
+2025/04/19 19:17:23 [notice] 1#1: worker process 30 exited with code 0
+2025/04/19 19:17:23 [notice] 1#1: exit
+2025/04/19 19:17:53 [notice] 1#1: using the "epoll" event method
+2025/04/19 19:17:53 [notice] 1#1: nginx/1.26.3
+2025/04/19 19:17:53 [notice] 1#1: built by gcc 13.2.1 20240309 (Alpine 13.2.1_git20240309) 
+2025/04/19 19:17:53 [notice] 1#1: OS: Linux 6.8.0-1024-aws
+2025/04/19 19:17:53 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2025/04/19 19:17:53 [notice] 1#1: start worker processes
+2025/04/19 19:17:53 [notice] 1#1: start worker process 30
+2025/04/19 19:19:49 [notice] 1#1: signal 3 (SIGQUIT) received, shutting down
+2025/04/19 19:19:49 [notice] 30#30: gracefully shutting down
+2025/04/19 19:19:49 [notice] 30#30: exiting
+2025/04/19 19:19:49 [notice] 30#30: exit
+2025/04/19 19:19:49 [notice] 1#1: signal 17 (SIGCHLD) received from 30
+2025/04/19 19:19:49 [notice] 1#1: worker process 30 exited with code 0
+2025/04/19 19:19:49 [notice] 1#1: exit
+2025/04/19 19:39:03 [notice] 1#1: using the "epoll" event method
+2025/04/19 19:39:03 [notice] 1#1: nginx/1.26.3
+2025/04/19 19:39:03 [notice] 1#1: built by gcc 13.2.1 20240309 (Alpine 13.2.1_git20240309) 
+2025/04/19 19:39:03 [notice] 1#1: OS: Linux 6.8.0-1024-aws
+2025/04/19 19:39:03 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2025/04/19 19:39:03 [notice] 1#1: start worker processes
+2025/04/19 19:39:03 [notice] 1#1: start worker process 30
+2025/04/19 19:47:37 [error] 30#30: *2 open() "/usr/share/nginx/html/fake-page" failed (2: No such file or directory), client: 172.21.0.1, server: localhost, request: "GET /fake-page HTTP/1.1", host: "localhost"
+2025/04/19 19:58:16 [error] 30#30: *3 open() "/usr/share/nginx/html/fake-page" failed (2: No such file or directory), client: 172.21.0.1, server: localhost, request: "GET /fake-page HTTP/1.1", host: "localhost"
+2025/04/19 19:58:40 [error] 30#30: *4 open() "/usr/share/nginx/html/f" failed (2: No such file or directory), client: 172.21.0.1, server: localhost, request: "GET /f HTTP/1.1", host: "localhost"
+2025/04/19 19:58:48 [error] 30#30: *6 open() "/usr/share/nginx/html/fdsa" failed (2: No such file or directory), client: 172.21.0.1, server: localhost, request: "GET /fdsa HTTP/1.1", host: "localhost"
+2025/04/19 20:09:20 [error] 30#30: *9 open() "/usr/share/nginx/html/fdssadasdsa" failed (2: No such file or directory), client: 172.21.0.1, server: localhost, request: "GET /fdssadasdsa HTTP/1.1", host: "localhost"
+2025/04/19 20:12:25 [error] 30#30: *10 open() "/usr/share/nginx/html/favicon.ico" failed (2: No such file or directory), client: 37.17.96.68, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "44.203.199.152", referrer: "http://44.203.199.152/"
+2025/04/19 20:17:44 [notice] 1#1: signal 3 (SIGQUIT) received, shutting down
+2025/04/19 20:17:44 [notice] 30#30: gracefully shutting down
+2025/04/19 20:17:44 [notice] 30#30: exiting
+2025/04/19 20:17:44 [notice] 30#30: exit
+2025/04/19 20:17:44 [notice] 1#1: signal 17 (SIGCHLD) received from 30
+2025/04/19 20:17:44 [notice] 1#1: worker process 30 exited with code 0
+2025/04/19 20:17:44 [notice] 1#1: exit
