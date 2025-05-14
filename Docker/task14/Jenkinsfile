@@ -1,53 +1,59 @@
 pipeline {
-    agent any
-    
-    environment {
-        AWS_ACCOUNT = "090188239531"
-        ECR_REPO = "task14"
-        REGION = "us-east-1"
-        SERVER_IP = "34.229.16.235"
+  agent any
+  environment {
+    REGISTRY      = "${SERVER_IP}:5000"
+    REPO          = "task14"
+    IMAGE         = "${REGISTRY}/${REPO}"
+    TAG           = "${env.GIT_COMMIT.take(7)}"
+    APP_DIR       = "DevOps_Kit/Docker/task14"
+    SERVER_IP     = "34.229.16.235"
+  }
+  stages {
+    stage('Checkout') {
+      steps { checkout scm }
     }
-
-    stages {
-        // Клонирование репозиторя
-        stage('Клонирование кода') {
-            steps {
-                checkout scm
-            }
+    stage('Build & Tag') {
+      steps {
+        dir(APP_DIR) {
+          sh 'docker compose build nginx'
+          sh "docker tag nginx_proxy ${IMAGE}:${TAG}"
         }
-
-        // Этап 2: Сборка образа
-        stage('Сборка образа') {
-            steps {
-                sh """
-                cd Docker/task14
-                docker compose build nginx
-                """
-            }
-        }
-
-        // Этап 3: Загрузка образа в ECR
-        stage('Загрузка в ECR') {
-            steps {
-                sh "aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin ${AWS_ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com"
-                sh """
-                docker tag task14-nginx_proxy ${AWS_ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com/${ECR_REPO}:latest
-                docker push ${AWS_ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com/${ECR_REPO}:latest
-                """
-            }
-        }
-
-        // Этап 4: Деплой
-        stage('Деплой') {
-            steps {
-                sh """
-                ssh ubuntu@${SERVER_IP} "
-                    cd DevOps_Kit/Docker/task14
-                    docker compose pull
-                    docker compose up -d
-                "
-                """
-            }
-        }
+      }
     }
+    stage('Login to Registry') {
+      steps {
+        withCredentials([usernamePassword(
+            credentialsId: 'registry-creds',
+            usernameVariable: 'REG_USER',
+            passwordVariable: 'REG_PASS'
+        )]) {
+          sh "echo \$REG_PASS | docker login ${REGISTRY} -u \$REG_USER --password-stdin"
+        }
+      }
+    }
+    stage('Push Image') {
+      steps {
+        sh "docker push ${IMAGE}:${TAG}"
+      }
+    }
+    stage('Deploy') {
+      steps {
+        sshagent(['jenkins-ssh-key']) {
+          sh """
+            ssh -o StrictHostKeyChecking=no ubuntu@${SERVER_IP} '
+              cd ${APP_DIR} &&
+              docker compose pull &&
+              docker compose up -d
+            '
+          """
+        }
+      }
+    }
+  }
+  post {
+    always { cleanWs() }
+    success { echo "Pipeline успешно завершён, приложение доступно по http://${SERVER_IP}" }
+    failure { echo "Pipeline завершился с ошибкой" }
+  }
 }
+
