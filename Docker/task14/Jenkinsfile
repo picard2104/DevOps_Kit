@@ -16,7 +16,7 @@ pipeline {
       steps {
         dir(APP_DIR) {
           sh 'docker compose build nginx'
-          sh "docker tag nginx_proxy ${IMAGE}:${TAG}"
+          sh "docker tag nginx ${IMAGE}:${TAG}"
         }
       }
     }
