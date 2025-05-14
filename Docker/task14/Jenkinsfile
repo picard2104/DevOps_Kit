@@ -1,6 +1,8 @@
 pipeline {
   agent any
-
+  triggers {
+    githubPush()
+  }
   environment {
     SERVER_IP   = "34.229.16.235"
     REGISTRY    = "${SERVER_IP}:5000"
@@ -50,3 +52,4 @@ pipeline {
     failure { echo "Ошибка!" }
   }
 }
+
