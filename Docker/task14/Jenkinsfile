@@ -20,7 +20,7 @@ pipeline {
         stage('Сборка образа') {
             steps {
                 sh """
-                cd DevOps_Kit/Docker/task14
+                cd Docker/task14
                 docker compose build nginx_proxy
                 """
             }
