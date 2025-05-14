@@ -1,0 +1,52 @@
+pipeline {
+  agent any
+
+  environment {
+    SERVER_IP   = "34.229.16.235"
+    REGISTRY    = "${SERVER_IP}:5000"
+    REPO        = "task14"
+    TAG         = "${env.GIT_COMMIT.take(7)}"
+    APP_DIR     = "Docker/task14"
+  }
+
+  stages {
+    stage('чекаут') {
+      steps { checkout scm }
+    }
+
+    stage('билд с тегм') {
+      steps {
+        dir(APP_DIR) {
+          sh 'docker compose build nginx'
+          sh "docker tag task14-nginx ${REGISTRY}/${REPO}:${TAG}"
+        }
+      }
+    }
+
+    stage('докер пуш') {
+      steps {
+        sh "docker push ${REGISTRY}/${REPO}:${TAG}"
+      }
+    }
+
+    stage('деплой веба') {
+      steps {
+        withCredentials([file(credentialsId: 'MikitaPem', variable: 'PEM_FILE')]) {
+          sh """
+            ssh -i \$PEM_FILE -o StrictHostKeyChecking=no ubuntu@${SERVER_IP} '
+              cd /home/ubuntu/DevOps_Kit/${APP_DIR} &&
+              docker compose pull &&
+              docker compose up -d
+            '
+          """
+        }
+      }
+    }
+  }
+
+  post {
+    always { cleanWs() }
+    success { echo "веб тут: http://${SERVER_IP}" }
+    failure { echo "Ошибка!" }
+  }
+}
