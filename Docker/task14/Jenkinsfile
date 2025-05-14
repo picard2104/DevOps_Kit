@@ -21,7 +21,7 @@ pipeline {
             steps {
                 sh """
                 cd Docker/task14
-                docker compose build nginx_proxy
+                docker compose build nginx
                 """
             }
         }
