@@ -1,39 +1,37 @@
 pipeline {
   agent any
   environment {
-    REGISTRY      = "${SERVER_IP}:5000"
-    REPO          = "task14"
-    IMAGE         = "${REGISTRY}/${REPO}"
-    TAG           = "${env.GIT_COMMIT.take(7)}"
-    APP_DIR       = "DevOps_Kit/Docker/task14"
-    SERVER_IP     = "34.229.16.235"
+    SERVER_IP = "34.229.16.235"
+    TAG       = "${env.GIT_COMMIT.take(7)}"
+    APP_DIR   = "Docker/task14"
   }
   stages {
-    stage('Checkout') {
-      steps { checkout scm }
-    }
+    stage('Checkout') { steps { checkout scm } }
     stage('Build & Tag') {
       steps {
         dir(APP_DIR) {
           sh 'docker compose build nginx'
-          sh "docker tag nginx ${IMAGE}:${TAG}"
+          sh "docker tag task14-nginx ${SERVER_IP}:5000/task14:${TAG}"
         }
       }
     }
     stage('Login to Registry') {
       steps {
         withCredentials([usernamePassword(
-            credentialsId: 'registry-creds',
-            usernameVariable: 'REG_USER',
-            passwordVariable: 'REG_PASS'
+          credentialsId: 'registry-creds',
+          usernameVariable: 'REG_USER',
+          passwordVariable: 'REG_PASS'
         )]) {
-          sh "echo \$REG_PASS | docker login ${REGISTRY} -u \$REG_USER --password-stdin"
+          sh '''
+            echo $REG_PASS | docker login ${SERVER_IP}:5000 \
+              -u $REG_USER --password-stdin
+          '''
         }
       }
     }
     stage('Push Image') {
       steps {
-        sh "docker push ${IMAGE}:${TAG}"
+        sh "docker push ${SERVER_IP}:5000/task14:${TAG}"
       }
     }
     stage('Deploy') {
@@ -51,9 +49,9 @@ pipeline {
     }
   }
   post {
-    always { cleanWs() }
-    success { echo "Pipeline успешно завершён, приложение доступно по http://${SERVER_IP}" }
-    failure { echo "Pipeline завершился с ошибкой" }
+    always      { cleanWs() }
+    success     { echo "Готово: http://${SERVER_IP}" }
+    failure     { echo "Ошибка при выполнении CI/CD" }
   }
 }
 
