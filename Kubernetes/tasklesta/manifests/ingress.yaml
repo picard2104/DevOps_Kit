@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: lesta-start-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /ping
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: lesta.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: lesta-start-service
+                port:
+                  number: 80

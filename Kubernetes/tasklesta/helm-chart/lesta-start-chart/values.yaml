@@ -1,0 +1,15 @@
+replicaCount: 2
+image:
+  repository: lesta-start
+  tag: "7.1"
+service:
+  port: 80
+  targetPort: 8080
+ingress:
+  enabled: true
+  host: lesta.local
+  rewriteTarget: /ping
+postgres:
+  user: "user"
+  password: "pass"
+  db: "dbname"
