@@ -1,0 +1,113 @@
+ubuntu@dm-c2-9-53-184:~$ history
+    1  docker ps
+    2  curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
+    3  sudo dpkg -i minikube_latest_amd64.deb
+    4  minikube version
+    5  curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+    6  chmod +x kubectl
+    7  sudo mv kubectl /usr/local/bin/
+    8  kubectl version --client
+    9  minikube start --driver=docker
+   10  minikube status
+   11  minikube addons enable ingress
+   12  kubectl get pods -n ingress-nginx
+   13  mkdir ~/project && cd ~/project
+   14  ls
+   15  ls -lah
+   16  ls
+   17  tar -xzvf api.tar.gz
+   18  cd api
+   19  sudo vim Dockerfile
+   20  eval $(minikube docker-env)
+   21  docker build -t lesta-start:7.1 .
+   22  sudo vim postgres-deployment.yaml
+   23  sudo vim postgres-service.yaml
+   24  kubectl apply -f postgres-deployment.yaml
+   25  kubectl apply -f postgres-service.yaml
+   26  sudo vim deployment.yaml
+   27  sudo vim service.yaml
+   28  sudo vim ingress.yaml
+   29  kubectl apply -f deployment.yaml
+   30  kubectl apply -f service.yaml
+   31  kubectl apply -f ingress.yaml
+   32  echo "$(minikube ip) lesta.local" | sudo tee -a /etc/hosts
+   33  curl http://lesta.local
+   34  minikube status
+   35  cat /etc/hosts
+   36  sudo systemd-resolve --flush-caches
+   37  ping lesta.local
+   38  kubectl get services
+   39  curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+   40  helm version
+   41  ls
+   42  ls -lah
+   43  helm create lesta-start-chart
+   44  ls -lah
+   45  rm -rf lesta-start-chart/templates/*
+   46  cd lesta-start-chart/
+   47  ls
+   48  sudo vim Chart.yaml
+   49  sudo vim values.yaml
+   50  cd templates
+   51  ls
+   52  sudo vim deployment.yaml
+   53  sudo vim service.yaml
+   54  sudo vim ingress.yaml
+   55  cd lesta-start-chart
+   56  cd ..
+   57  helm install lesta-release .
+   58  ls
+   59  helm list
+   60  curl -v http://lesta.local
+   61  minikube status
+   62  kubectl get nodes
+   63  kubectl get pods --all-namespaces
+   64  kubectl get svc --all-namespaces
+   65  kubectl get ingress --all-namespaces
+   66  curl -v http://lesta.local
+   67  kubectl delete ingress lesta-start-ingress
+   68  kubectl delete service lesta-start-service
+   69  kubectl delete deployment lesta-start
+   70  helm uninstall lesta-release
+   71  kubectl get ingress,service,deployment -l app=lesta-start
+   72  cd ~/project/api/lesta-start-chart
+   73  helm install lesta-release .
+   74  helm list
+   75  kubectl get all -l app.kubernetes.io/instance=lesta-release
+   76  curl http://lesta.local
+   77  ls
+   78  cd templates/
+   79  ls
+   80  sudo vim deployment.yaml
+   81  sudo vim service.yaml
+   82  sudo vim ingress.yaml
+   83  helm upgrade lesta-release .
+   84  cd ..
+   85  helm upgrade lesta-release .
+   86  kubectl get all -l app.kubernetes.io/instance=lesta-release
+   87  kubectl get deployment -l app.kubernetes.io/instance=lesta-release
+   88  kubectl get service -l app.kubernetes.io/instance=lesta-release
+   89  kubectl get ingress -l app.kubernetes.io/instance=lesta-release
+   90  kubectl get all
+   91  kubectl delete deployment lesta-release-app
+   92  helm upgrade lesta-release .
+   93  kubectl get all -l app.kubernetes.io/instance=lesta-release
+   94  kubectl get all
+   95  kubectl get all -l app.kubernetes.io/instance=lesta-release
+   96  kubectl get deployment -l app.kubernetes.io/instance=lesta-release
+   97  kubectl get service -l app.kubernetes.io/instance=lesta-release
+   98  kubectl get ingress -l app.kubernetes.io/instance=lesta-release
+   99  helm history lesta-release
+  100  cd ..
+  101  ls
+  102  rm api.tar.gz
+  103  ls
+  104  cd ..
+  105  ls
+  106  kdir -p ~/tasklesta-export/{docker,helm-chart,manifests}
+  107  mkdir -p ~/tasklesta-export/{docker,helm-chart,manifests}
+  108  cp ~/project/api/Dockerfile ~/tasklesta-export/docker/
+  109  cp -r ~/project/api/lesta-start-chart ~/tasklesta-export/helm-chart/
+  110  cp ~/project/api/*.yaml ~/tasklesta-export/manifests/
+  111  tar czvf tasklesta-export.tar.gz -C ~/tasklesta-export .
+  112  history
