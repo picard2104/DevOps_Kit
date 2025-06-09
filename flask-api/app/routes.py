@@ -34,4 +34,3 @@ def get_results():
 @app.route('/ping', methods=['GET'])
 def ping():
     return jsonify({"status": "ok"}), 200
-
