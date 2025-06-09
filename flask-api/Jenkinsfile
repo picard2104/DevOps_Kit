@@ -4,8 +4,8 @@ pipeline {
     environment {
         DOCKER_IMAGE = 'mikitadziubko/repolesta'
         DOCKER_TAG = 'latest'
-        DEPLOY_HOST = 'user@your-server.com'
-        DEPLOY_PATH = '/home/user/app'
+        DEPLOY_HOST = 'ubuntu@123.45.67.89'
+        DEPLOY_PATH = '/home/ubuntu/app'
     }
 
     stages {
