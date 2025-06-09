@@ -4,6 +4,7 @@ from .models import Result
 
 app = create_app()
 
+
 @app.route('/submit', methods=['POST'])
 def submit():
     try:
@@ -19,6 +20,7 @@ def submit():
         app.logger.error(f"Error in /submit: {str(e)}")
         return jsonify({"error": "Internal server error"}), 500
 
+
 @app.route('/results', methods=['GET'])
 def get_results():
     try:
@@ -28,6 +30,8 @@ def get_results():
         app.logger.error(f"Error in /results: {str(e)}")
         return jsonify({"error": "Internal server error"}), 500
 
+
 @app.route('/ping', methods=['GET'])
 def ping():
     return jsonify({"status": "ok"}), 200
+
