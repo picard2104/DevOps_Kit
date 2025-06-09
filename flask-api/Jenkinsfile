@@ -54,10 +54,13 @@ pipeline {
             steps {
                 sshagent(['ssh-credentials']) {
                     dir('flask-api') {
-                        sh """
-                        scp docker-compose.yml .env ${DEPLOY_HOST}:${DEPLOY_PATH}/
-                        ssh ${DEPLOY_HOST} "cd ${DEPLOY_PATH} && docker-compose down && docker-compose pull && docker-compose up -d"
-                        """
+                        withCredentials([file(credentialsId: 'env-file-id', variable: 'ENV_FILE')]) {
+                            sh """
+                            cp \$ENV_FILE .env
+                            scp docker-compose.yml .env ${DEPLOY_HOST}:${DEPLOY_PATH}/
+                            ssh ${DEPLOY_HOST} "cd ${DEPLOY_PATH} && docker-compose down && docker-compose pull && docker-compose up -d"
+                            """
+                        }
                     }
                 }
             }
