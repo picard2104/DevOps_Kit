@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = 'mikitadziubko/repolesta'
         DOCKER_TAG = 'latest'
-        DEPLOY_HOST = 'ubuntu@123.45.67.89'
+        DEPLOY_HOST = 'ubuntu@37.9.53.167'
         DEPLOY_PATH = '/home/ubuntu/app'
     }
 
