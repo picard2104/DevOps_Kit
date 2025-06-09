@@ -1,20 +1,14 @@
 pipeline {
     agent any
+
     environment {
         DOCKER_IMAGE = 'mikitadziubko/repolesta'
         DOCKER_TAG = 'latest'
-        DEPLOY_HOST = 'ubuntu@37.9.53.167'
-        DEPLOY_PATH = '/home/ubuntu/flask-api'
+        DEPLOY_HOST = 'user@your-server.com'
+        DEPLOY_PATH = '/home/user/app'
     }
+
     stages {
-        stage('Checkout') {
-            steps {
-                git branch: 'main', 
-                url: 'https://github.com/picard2104/DevOps_Kit.git',
-                credentialsId: 'github-credentials'
-            }
-        }
-        
         stage('Build') {
             steps {
                 dir('flask-api') {
@@ -22,18 +16,30 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Lint') {
             steps {
                 dir('flask-api') {
                     sh '''
-                    pip install --user flake8
-                    ~/.local/bin/flake8 .
+                    # Установка pip3, если он не установлен
+                    if ! command -v pip3 >/dev/null 2>&1; then
+                      echo "pip3 not found. Installing..."
+                      sudo apt-get update && sudo apt-get install -y python3-pip
+                    fi
+
+                    # Установка flake8
+                    pip3 install --user flake8
+
+                    # Добавим ~/.local/bin в PATH
+                    export PATH=$HOME/.local/bin:$PATH
+
+                    # Запуск flake8
+                    flake8 .
                     '''
                 }
             }
         }
-        
+
         stage('Push') {
             steps {
                 withCredentials([usernamePassword(
@@ -50,7 +56,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Deploy') {
             steps {
                 sshagent(['ssh-credentials']) {
