@@ -1,0 +1,56 @@
+pipeline {
+    agent any
+    environment {
+        DOCKER_IMAGE = 'mikitadziubko/repolesta'
+        DOCKER_TAG = 'latest'
+        DEPLOY_HOST = 'ubuntu@37.9.53.167'
+        DEPLOY_PATH = '/home/ubuntu/flask-api'
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', 
+                url: 'https://github.com/picard2104/DevOps_Kit.git',
+                credentialsId: 'github-credentials'
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                dir('flask-api') {
+                    sh 'docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} .'
+                }
+            }
+        }
+        
+        stage('Push') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'docker-hub',
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
+                )]) {
+                    dir('flask-api') {
+                        sh '''
+                        docker login -u $DOCKER_USER -p $DOCKER_PASS
+                        docker push ${DOCKER_IMAGE}:${DOCKER_TAG}
+                        '''
+                    }
+                }
+            }
+        }
+        
+        stage('Deploy') {
+            steps {
+                sshagent(['ssh-credentials']) {
+                    dir('flask-api') {
+                        sh """
+                        scp docker-compose.yml .env ${DEPLOY_HOST}:${DEPLOY_PATH}/
+                        ssh ${DEPLOY_HOST} "cd ${DEPLOY_PATH} && docker-compose down && docker-compose pull && docker-compose up -d"
+                        """
+                    }
+                }
+            }
+        }
+    }
+}
